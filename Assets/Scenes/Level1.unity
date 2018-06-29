@@ -657,6 +657,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   myPlayer: {fileID: 1093083756}
+  health: 10
 --- !u!1 &573254246
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,6 +1186,7 @@ MonoBehaviour:
   mMoveSpeed: 10
   fire: 323
   mGun: {fileID: 2095202221}
+  health: 10
 --- !u!1 &1101046633
 GameObject:
   m_ObjectHideFlags: 0

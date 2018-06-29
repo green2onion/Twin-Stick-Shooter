@@ -8,11 +8,12 @@ public class ZombieAIBehaviour : MonoBehaviour
 	public float moveSpeed;
 	public GameObject myPlayer;
 	private Vector3 myPlayerPosition;
+	public float health;
 
 	private void ChasePlayer()
 	{
 		myPlayerPosition = myPlayer.transform.position;
-		if (Vector3.Distance(transform.position, myPlayerPosition) < 10 && Vector3.Distance(transform.position, myPlayerPosition) > 1) 
+		if (Vector3.Distance(transform.position, myPlayerPosition) < 10 && Vector3.Distance(transform.position, myPlayerPosition) > 1)
 		{
 			transform.LookAt(myPlayerPosition);
 			mRigidbody.velocity = transform.forward * moveSpeed;
@@ -25,8 +26,9 @@ public class ZombieAIBehaviour : MonoBehaviour
 	}
 	private void Die()
 	{
-		transform.rotation = new Quaternion(90, transform.rotation.y, 0,0);
+		transform.rotation = new Quaternion(90, transform.rotation.y, 0, 0);
 		transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
+		mRigidbody.velocity = Vector3.zero;
 		Invoke("Despawn", 1.5f);
 	}
 	void Despawn()
@@ -35,11 +37,20 @@ public class ZombieAIBehaviour : MonoBehaviour
 	}
 	private void OnCollisionEnter(Collision other)
 	{
-		if(other.gameObject.tag == "Player")
+		if (other.gameObject.tag == "Player")
 		{
 			// TODO: Damage player
+			other.gameObject.GetComponent<PlayerController>().health -= 2f;
 			print("cool");
-			Die();
+			//Die();
+		}
+		if (other.gameObject.tag == "Bullet")
+		{
+			health -= 0.25f;
+			if (health <= 0)
+			{
+				Die();
+			}
 		}
 	}
 
@@ -48,7 +59,7 @@ public class ZombieAIBehaviour : MonoBehaviour
 	{
 		mRigidbody = GetComponent<Rigidbody>();
 		//myPlayer = GameObject.FindGameObjectWithTag("Player");
-		
+
 	}
 
 	// Update is called once per frame

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class PlayerController : MonoBehaviour
 	public float mMoveSpeed;
 	public KeyCode fire = KeyCode.Mouse0;
 	public GunControl mGun;
-
+	public float health;
 	// Use this for initialization
 	void Start()
 	{
@@ -33,18 +34,22 @@ public class PlayerController : MonoBehaviour
 		{
 			Vector3 pointToLookAt = cameraRay.GetPoint(rayLength);
 			Debug.DrawLine(cameraRay.origin, pointToLookAt, Color.green);
-			transform.LookAt(new Vector3(pointToLookAt.x,transform.position.y,pointToLookAt.z));
+			transform.LookAt(new Vector3(pointToLookAt.x, transform.position.y, pointToLookAt.z));
 		}
 	}
 	private void Update()
 	{
-		if(Input.GetKey(fire))
+		if (Input.GetKey(fire))
 		{
 			mGun.isFiring = true;
 		}
 		else
 		{
 			mGun.isFiring = false;
+		}
+		if (health <= 0)
+		{
+			SceneManager.LoadScene("MainMenu");
 		}
 	}
 }
